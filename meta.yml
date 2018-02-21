@@ -1,0 +1,14 @@
+commands:
+  - type: sync
+    repo: 'https:tmux-plugins/tpm'
+    dst:  '<%= get_var! :"tpm.dir" %>'
+    only: f?tmux && f?tpm
+
+elems:
+  - src: ^(tmux.conf)$
+    dst: ~/.<1>
+    only: f?tmux
+    notes: Program xclip is needed for clipboard support
+
+
+# vim: set filetype=eruby.yaml :

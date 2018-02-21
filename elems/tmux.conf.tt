@@ -1,0 +1,80 @@
+# ─────────────────────────────────────────────────────────────────────────────┐
+#
+# Name:    tmux.conf.tt
+# Summary: %TODO%
+# Authors:
+#   - Nicolas Farabegoli <nicolas.farabegoli@gmail.com> (nicolasfara)
+#
+# Project:
+#   - Homepage:        https://github.com/nicolasfara/
+#   - Getting started: see README.md in the project root folder
+#
+# License: Apache v2.0 (see below)
+#
+# ─────────────────────────────────────────────────────────────────────────────┤
+#
+# Copyright  2018
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+# or implied. See the License for the specific language governing
+# permissions and limitations under the License.
+#
+# ─────────────────────────────────────────────────────────────────────────────┘
+<%
+	define_locals do
+		variable "tmux.unbindkey", as: :unbindkey
+		variable "tmux.keybind", as: :keybind
+
+    variable "tmux.hsplit", as: :hsplit
+    variable "tmux.vsplit", as: :vsplit
+
+    variable "tmux.switch_left", as: :switch_left
+    variable "tmux.switch_right", as: :switch_right
+    variable "tmux.switch_up", as: :switch_up
+    variable "tmux.switch_down", as: :switch_down
+
+    variable "tpm.dir", as: :tpm_dir
+	end
+%>
+
+# remap prefix from 'C-b' to 'C-a'
+unbind <%= local! :unbindkey %>
+set-option -g prefix <%= local! :keybind%>
+bind-key <%= local! :keybind%> send-prefix
+
+# split panes using | and -
+bind <%= local! :hsplit %> split-window -h
+bind <%= local! :vsplit %> split-window -v
+unbind '"'
+unbind %
+
+# reload config file (change file location to your the tmux.conf you want to use)
+bind r source-file ~/.tmux.conf
+
+# switch panes using Alt-arrow without prefix
+bind -n <%= local! :switch_left %> select-pane -L
+bind -n <%= local! :switch_right %> select-pane -R
+bind -n <%= local! :switch_up %> select-pane -U
+bind -n <%= local! :switch_down %> select-pane -D
+
+# Theming
+<% if has_feature? :nord_tmux %>
+  set -g @plugin 'arcticicestudio/nord-tmux'
+<% end %>
+
+################################################################################
+# KEEP AT THE VERY BOTTOM FILE
+run '<%= local! :tpm_dir %>/tpm'
+################################################################################
+
+
+
+# vim: set filetype=eruby.conf :

@@ -1,0 +1,14 @@
+# => inherits: generic, with-tpm, theme <= #
+
+tmux:
+  unbindkey:    C-b
+  keybind:      C-a
+  vsplit:       v
+  hsplit:       h
+  switch_left:  M-l
+  switch_right: M-h
+  switch_up:    M-k
+  switch_down:  M-j
+
+
+# vim: set filetype=eruby.yaml :
