@@ -44,36 +44,52 @@
     variable "tpm.dir", as: :tpm_dir
 	end
 %>
+# ─────────────────────────────────────────────────────────────────────────────┘
 
 # remap prefix from 'C-b' to 'C-a'
 unbind <%= local! :unbindkey %>
 set-option -g prefix <%= local! :keybind%>
 bind-key <%= local! :keybind%> send-prefix
 
+# workaround for nvim on ESC press delay
+set -sg escape-time 0
+set -g status-interval 0
+
 # split panes using | and -
 bind <%= local! :hsplit %> split-window -h
 bind <%= local! :vsplit %> split-window -v
 unbind '"'
 unbind %
+# ─────────────────────────────────────────────────────────────────────────────┘
 
 # reload config file (change file location to your the tmux.conf you want to use)
 bind r source-file ~/.tmux.conf
+# ─────────────────────────────────────────────────────────────────────────────┘
 
 # switch panes using Alt-arrow without prefix
 bind -n <%= local! :switch_left %> select-pane -L
 bind -n <%= local! :switch_right %> select-pane -R
 bind -n <%= local! :switch_up %> select-pane -U
 bind -n <%= local! :switch_down %> select-pane -D
+# ─────────────────────────────────────────────────────────────────────────────┘
 
-# Theming
-<% if has_feature? :nord_tmux %>
-  set -g @plugin 'arcticicestudio/nord-tmux'
+# ──────────────────────────────────────────────────────────────────── Theme ──┐
+<% if has_feature? :nic0lasfara_theme %>
+set -g @plugin 'nicolasfara/tmux-theme'
 <% end %>
+<% if has_feature? :nord_tmux %>
+set -g @plugin 'arcticicestudio/nord-tmux'
+<% end %>
+<% if has_feature? :onedark_theme %>
+  set -g @plugin 'tmux-plugins/tmux-prefix-highlight'
+  set -g @plugin 'sei40kr/tmux-onedark'
+<% end %>
+# ─────────────────────────────────────────────────────────────────────────────┘
 
-################################################################################
+# ─────────────────────────────────────────────────────────── Plugin Manager ──┐
 # KEEP AT THE VERY BOTTOM FILE
 run '<%= local! :tpm_dir %>/tpm'
-################################################################################
+# ─────────────────────────────────────────────────────────────────────────────┘
 
 
 
