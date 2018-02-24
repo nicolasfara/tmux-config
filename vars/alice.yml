@@ -1,6 +1,7 @@
-# => inherits: generic, with-tpm, theme <= #
+# => inherits: generic, with-tpm, onedark-theme <= #
 
 tmux:
+  theme:        ~/.tmux/themes/theme-tmux.conf
   unbindkey:    C-b
   keybind:      C-a
   vsplit:       v
