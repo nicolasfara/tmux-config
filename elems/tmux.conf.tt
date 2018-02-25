@@ -41,44 +41,62 @@
     variable "tmux.switch_up", as: :switch_up
     variable "tmux.switch_down", as: :switch_down
 
+    variable "tmux.resize_left", as: :resize_left
+    variable "tmux.resize_right", as: :resize_right
+    variable "tmux.resize_up", as: :resize_up
+    variable "tmux.resize_down", as: :resize_down
+
+    variable "tmux.mode_keys", as: :mode_keys
+
     variable "tpm.dir", as: :tpm_dir
 	end
 %>
 # ─────────────────────────────────────────────────────────────────────────────┘
 
 # remap prefix from 'C-b' to 'C-a'
+# ───────────────────────────────────────────────────────────────── Keybinds ──┐
 unbind <%= local! :unbindkey %>
 set-option -g prefix <%= local! :keybind%>
 bind-key <%= local! :keybind%> send-prefix
-
-# workaround for nvim on ESC press delay
-set -sg escape-time 0
-set -g status-interval 0
-
-# split panes using | and -
+# ────────────────────────────────────────────── cursor movement   Keybinds ──┐
+set-window-option -g mode-keys <%= local! :mode_keys %>
+# ────────────────────────────────────────────────── Split panes   Keybinds ──┐
 bind <%= local! :hsplit %> split-window -h
 bind <%= local! :vsplit %> split-window -v
 unbind '"'
 unbind %
-# ─────────────────────────────────────────────────────────────────────────────┘
-
-# reload config file (change file location to your the tmux.conf you want to use)
-bind r source-file ~/.tmux.conf
-# ─────────────────────────────────────────────────────────────────────────────┘
-
-# switch panes using Alt-arrow without prefix
+# ───────────────────────────────────────────────── Switch panes   Keybinds ──┐
 bind -n <%= local! :switch_left %> select-pane -L
 bind -n <%= local! :switch_right %> select-pane -R
 bind -n <%= local! :switch_up %> select-pane -U
 bind -n <%= local! :switch_down %> select-pane -D
+# ───────────────────────────────────────────────── Resize panes   Keybinds ──┐
+bind -n <%= local! :resize_down %> resize-pane -D
+bind -n <%= local! :resize_up %> resize-pane -U
+bind -n <%= local! :resize_left %> resize-pane -L
+bind -n <%= local! :resize_right %> resize-pane -R
+# ─────────────────────────────────────────────────────────────────────────────┘
+
+# ──────────────────────────────────────────────────────────── Delay for VIM ──┐
+set -sg escape-time 0
+set -g status-interval 0
+# ─────────────────────────────────────────────────────────────────────────────┘
+
+# ────────────────────────────────────────────────────────────────── Aspects ──┐
+set -g base-index 1
+setw -g pane-base-index 1
+# ─────────────────────────────────────────────────────────────────────────────┘
+
+# ─────────────────────────────────────────────────────────────────── Reload ──┐
+bind r source-file ~/.tmux.conf
 # ─────────────────────────────────────────────────────────────────────────────┘
 
 # ──────────────────────────────────────────────────────────────────── Theme ──┐
 <% if has_feature? :nic0lasfara_theme %>
-set -g @plugin 'nicolasfara/tmux-theme'
+  set -g @plugin 'nicolasfara/tmux-theme'
 <% end %>
 <% if has_feature? :nord_tmux %>
-set -g @plugin 'arcticicestudio/nord-tmux'
+  set -g @plugin 'arcticicestudio/nord-tmux'
 <% end %>
 <% if has_feature? :onedark_theme %>
   set -g @plugin 'tmux-plugins/tmux-prefix-highlight'

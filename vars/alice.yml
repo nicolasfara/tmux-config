@@ -4,12 +4,21 @@ tmux:
   theme:        ~/.tmux/themes/theme-tmux.conf
   unbindkey:    C-b
   keybind:      C-a
+
   vsplit:       v
   hsplit:       h
+
   switch_left:  M-l
   switch_right: M-h
   switch_up:    M-k
   switch_down:  M-j
+
+  resize_left:  M-Left
+  resize_right: M-Right
+  resize_up:    M-Up
+  resize_down:  M-Down
+
+  mode_keys:    vi
 
 
 # vim: set filetype=eruby.yaml :
