@@ -91,6 +91,11 @@ setw -g pane-base-index 1
 bind r source-file ~/.tmux.conf
 # ─────────────────────────────────────────────────────────────────────────────┘
 
+# ─────────────────────────────────────────────────────────────────── Reload ──┐
+set -g @plugin 'tmux-plugins/tmux-yank'
+set -g @plugin 'tmux-plugins/tmux-copycat'
+# ─────────────────────────────────────────────────────────────────────────────┘
+
 # ──────────────────────────────────────────────────────────────────── Theme ──┐
 <% if has_feature? :nic0lasfara_theme %>
   set -g @plugin 'nicolasfara/tmux-theme'
