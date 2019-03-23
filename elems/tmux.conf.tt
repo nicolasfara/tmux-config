@@ -94,14 +94,20 @@ bind r source-file ~/.tmux.conf
 # ─────────────────────────────────────────────────────────────────── Reload ──┐
 set -g @plugin 'tmux-plugins/tmux-yank'
 set -g @plugin 'tmux-plugins/tmux-copycat'
+set -g @plugin 'tmux-plugins/tmux-prefix-highlight'
+set -g status-right '#{prefix_highlight}'
 # ─────────────────────────────────────────────────────────────────────────────┘
 
 # ──────────────────────────────────────────────────────────────────── Theme ──┐
 <% if has_feature? :nic0lasfara_theme %>
-  set -g @plugin 'nicolasfara/tmux-theme'
+  #set -g @plugin 'nicolasfara/tmux-theme'
+<% end %>
+<% if has_feature? :onedark %>
+  set -g @plugin 'seebi/tmux-colors-solarized'
 <% end %>
 <% if has_feature? :nord_tmux %>
   set -g @plugin 'arcticicestudio/nord-tmux'
+  set -g @nord_tmux_no_patched_font "1"
 <% end %>
 <% if has_feature? :onedark_theme %>
   set -g @plugin 'tmux-plugins/tmux-prefix-highlight'
